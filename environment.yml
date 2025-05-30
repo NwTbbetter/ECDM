@@ -1,0 +1,12 @@
+name: ecdm
+channels:
+  - defaults
+dependencies:
+  - pytorch-cuda=11.8
+  - torchvision
+  - torchaudio
+  - pytorch
+  - dipy
+  - ipykernel
+
+

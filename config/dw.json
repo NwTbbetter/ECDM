@@ -1,0 +1,62 @@
+{
+    "name": "dw_20",
+    "phase": "train", // always set to train in the config
+    "gpu_ids": [
+        2
+    ],
+    "path": { //set the path
+        "log": "logs",
+        "tb_logger": "tb_logger",
+        "results": "results",
+        "checkpoint": "checkpoint"
+    },
+    "datasets": {
+        "train": {
+            "name": "hardi",
+            "dataroot": "../data/dw_20.nii.gz", // **UPDATE THIS TO THE PATH OF THE FILE** e.g. ".../data/HARDI150.nii.gz"
+            "valid_mask": [0,31],
+            "phase": "train",
+            "padding": 3,
+            "val_volume_idx": 30, // the volume to visualize for validation
+            "val_slice_idx": 27, // the slice to visualize for validation
+            "batch_size": 32,
+            "in_channel": 1,
+            "num_workers": 0,
+            "use_shuffle": true
+        },
+        "val": {
+            "name": "hardi",
+            "dataroot": "../data/dw_20.nii.gz",  // **UPDATE THIS TO THE PATH OF THE FILE** e.g. ".../data/HARDI150.nii.gz"
+            "valid_mask": [0,31],
+            "phase": "val",
+            "padding": 3,
+            "val_volume_idx": 30, // the volue to visualize for validation
+            "val_slice_idx": "all", // the slice to visualize for validation
+            "batch_size": 31,
+            "in_channel": 1,
+            "num_workers": 0
+        }
+    },
+    "model":{
+        "in_channel": 31,
+        "out_channel": 31,
+        "hidden": 64
+    },
+    "train": {
+        "latent_state": "experiments/dw_20_stage3_250517_210620/checkpoint/", // stage2
+        "resume_state": "experiments/dw_20_stage1_250506_152433/checkpoint/latest", // stage1 **UPDATE THIS TO THE PATH OF PHASE1 TRAINED NOISE MODEL** e.g. 
+        "drop_rate": 0.0,
+        "beta_schedule": { // use munual beta_schedule for accelerationß
+            "linear_start": 5e-5,
+            "linear_end": 1e-2
+        },
+        "n_iter": 10000,
+        "val_freq": 100,
+        "print_freq": 100,
+        "save_checkpoint_freq": 100,
+        "optimizer": {
+            "type": "adam",
+            "lr": 1e-4
+        }
+    }
+}
